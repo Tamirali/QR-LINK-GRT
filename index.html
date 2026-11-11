@@ -1,0 +1,171 @@
+<!DOCTYPE html> 
+<html lang="hi"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>डायनेमिक शोकेस QR Code जेनरेटर</title> 
+    <!-- QRCode.js लाइब्रेरी --> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script> 
+    <style> 
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f9; 
+            text-align: center; 
+            padding: 30px 20px; 
+            margin: 0; 
+        } 
+        .main-wrapper { 
+            max-width: 450px; 
+            margin: 0 auto; 
+        } 
+        .form-box, .output-box { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+            margin-bottom: 20px; 
+            text-align: left; 
+        } 
+        .form-box h3, .output-box h3 { 
+            margin-top: 0; 
+            color: #333; 
+            text-align: center; 
+            font-size: 18px; 
+        } 
+        .input-group { 
+            margin-bottom: 15px; 
+        } 
+        .input-group label { 
+            display: block; 
+            font-size: 14px; 
+            color: #555; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        } 
+        .input-group input { 
+            width: 100%; 
+            padding: 10px; 
+            box-sizing: border-box; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+            font-size: 14px; 
+        } 
+        .btn { 
+            background-color: #0066cc; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            width: 100%; 
+            font-size: 16px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold; 
+        } 
+        .btn:hover { 
+            background-color: #0052a3; 
+        } 
+        .output-box { 
+            text-align: center; 
+            display: none; 
+        } 
+        .shop-name { 
+            font-size: 22px; 
+            font-weight: bold; 
+            color: #222; 
+            margin-bottom: 15px; 
+        } 
+        #qrcode { 
+            margin: 15px auto; 
+            display: flex; 
+            justify-content: center; 
+        } 
+        .link-text { 
+            font-size: 15px; 
+            color: #0066cc; 
+            word-break: break-all; 
+            margin: 15px 0; 
+            display: block; 
+            text-decoration: none; 
+            font-weight: 500; 
+        } 
+        .link-text:hover { 
+            text-decoration: underline; 
+        } 
+        .instruction { 
+            font-size: 14px; 
+            color: #444; 
+            margin-top: 15px; 
+            line-height: 1.6; 
+            background: #f9f9fb; 
+            padding: 10px; 
+            border-radius: 6px; 
+            border: 1px dashed #ccc; 
+            text-align: left; 
+        } 
+    </style> 
+</head> 
+<body> 
+ 
+    <div class="main-wrapper"> 
+        <div class="form-box"> 
+            <h3>शोकेस डिटेल्स भरें</h3> 
+            <div class="input-group"> 
+                <label for="nameInput">शोकेस या दुकान का नाम:</label> 
+                <input type="text" id="nameInput" placeholder="यहाँ दुकान का नाम लिखें"> 
+            </div> 
+            <div class="input-group"> 
+                <label for="urlInput">दुकान/शोकेस का लिंक (URL):</label> 
+                <input type="text" id="urlInput" placeholder="यहाँ पूरा लिंक पेस्ट करें (जैसे https://...)"> 
+            </div> 
+            <button class="btn" onclick="generateQRCode()">QR Code बनाएँ</button> 
+        </div> 
+ 
+        <div class="output-box" id="outputCard"> 
+            <div id="shopNameDisplay" class="shop-name"></div> 
+             
+            <div id="qrcode"></div> 
+ 
+            <a id="shopLink" class="link-text" href="#" target="_blank"></a> 
+ 
+            <div class="instruction"> 
+                आप इसे Google camera से search करें और दुकान का शो केस देखें।<br> 
+                <small style="color: #666; font-size: 12px;">(Google Lens या कैमरा खोलकर इस QR कोड पर फोकस करें और लिंक पर क्लिक करें)</small> 
+            </div> 
+        </div> 
+    </div> 
+ 
+    <script> 
+        let qrcodeInstance = null; 
+ 
+        function generateQRCode() { 
+            var name = document.getElementById("nameInput").value.trim(); 
+            var url = document.getElementById("urlInput").value.trim(); 
+ 
+            if (!name || !url) { 
+                alert("कृपया शोकेस का नाम और लिंक दोनों भरें!"); 
+                return; 
+            } 
+ 
+            document.getElementById("outputCard").style.display = "block"; 
+            document.getElementById("shopNameDisplay").innerText = name; 
+             
+            var linkElement = document.getElementById("shopLink"); 
+            linkElement.href = url; 
+            linkElement.innerText = url; 
+ 
+            var qrContainer = document.getElementById("qrcode"); 
+            qrContainer.innerHTML = ""; 
+ 
+            qrcodeInstance = new QRCode(qrContainer, { 
+                text: url, 
+                width: 190, 
+                height: 190, 
+                colorDark : "#000000", 
+                colorLight : "#ffffff", 
+                correctLevel : QRCode.CorrectLevel.H 
+            }); 
+        } 
+    </script> 
+ 
+</body> 
+</html> 
